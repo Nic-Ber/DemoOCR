@@ -14,7 +14,7 @@ from PIL import Image
 import streamlit as st
 from streamlit_drawable_canvas import st_canvas
 import tensorflow as tf
-import cv2
+#import cv2
 import numpy as np
 #from pickle5 import load
 
