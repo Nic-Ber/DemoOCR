@@ -1,6 +1,6 @@
 tensorflow
 Pillow
 streamlit_drawable_canvas
-cv2
+opencv
 numpy
 streamlit
