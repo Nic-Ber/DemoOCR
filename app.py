@@ -82,7 +82,7 @@ def greedy_decoder(logits, charList):
 
 
 # Specify canvas parameters in application
-stroke_width = st.sidebar.slider("Stroke width: ", 1, 25, 3)
+stroke_width = st.sidebar.slider("Stroke width: ", 1, 25, 8)
 stroke_color = st.sidebar.color_picker("Stroke color hex: ")
 bg_color = st.sidebar.color_picker("Background color hex: ", "#eee")
 bg_image = st.sidebar.file_uploader("Background image:", type=["png", "jpg"])
