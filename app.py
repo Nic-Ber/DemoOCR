@@ -133,34 +133,34 @@ if canvas_result.image_data is not None:
     img = cv2.cvtColor(img, cv2.COLOR_RGBA2GRAY) / 255.
     img1 = img.reshape([1, height, width, 1])
 
-    st.image(img)
-    st.text(img.shape)
+    #st.image(img)
+    #st.text(img.shape)
     st.image(img1)
-    st.text(img1.shape)
+    #st.text(img1.shape)
     #pred_1 = greedy_decoder(model_1(img1), vocab)
     #pred_2 = greedy_decoder(model_2(img1), vocab)
     pred_3 = greedy_decoder(model_3(img1), vocab)
     #st.write(f'Texte prédit (modèle 1) :', pred_1[0])
     #st.write(f'Texte prédit (modèle 2) :', pred_2[0])
     st.write(f'Texte prédit (modèle 3) :', pred_3[0])
-   
-    with tf.GradientTape() as tape:
-        last_conv_layer = model_3.get_layer('conv2d_4')
-        iterate = tf.keras.models.Model([model_3.inputs], [model_3.output, last_conv_layer.output])
-        model_out, last_conv_layer = iterate(img1)
-        st.write(model_out.shape)
-        class_out = model_out[:, np.argmax(model_out[0])]
-        grads = tape.gradient(class_out, last_conv_layer)
-        pooled_grads = K.mean(grads, axis=(0, 1, 2))
 
-    heatmap = tf.reduce_mean(tf.multiply(pooled_grads, last_conv_layer), axis=-1)
-    heatmap = np.maximum(heatmap, 0)
-    heatmap /= np.max(heatmap)
-    heatmap = heatmap.reshape((8, 8))
-    heatmap = cv2.resize(heatmap, (img.shape[1], img.shape[0]))
-    heatmap = cv2.applyColorMap(np.uint8(255*heatmap), cv2.COLORMAP_JET)
-    img = heatmap * 0.5 + img
-    st.image(cv2.resize(img, (width, height)))
+    if False:
+        with tf.GradientTape() as tape:
+            last_conv_layer = model_3.get_layer('conv2d_4')
+            iterate = tf.keras.models.Model([model_3.inputs], [model_3.output, last_conv_layer.output])
+            model_out, last_conv_layer = iterate(img1)
+            st.write(model_out.shape)
+            class_out = model_out[:, np.argmax(model_out[0])]
+            grads = tape.gradient(class_out, last_conv_layer)
+            pooled_grads = K.mean(grads, axis=(0, 1, 2))
+        heatmap = tf.reduce_mean(tf.multiply(pooled_grads, last_conv_layer), axis=-1)
+        heatmap = np.maximum(heatmap, 0)
+        heatmap /= np.max(heatmap)
+        heatmap = heatmap.reshape((8, 8))
+        heatmap = cv2.resize(heatmap, (img.shape[1], img.shape[0]))
+        heatmap = cv2.applyColorMap(np.uint8(255*heatmap), cv2.COLORMAP_JET)
+        img = heatmap * 0.5 + img
+        st.image(cv2.resize(img, (width, height)))
 
 
 
