@@ -133,7 +133,9 @@ if canvas_result.image_data is not None:
     img1 = img.reshape([1, height, width, 1])
 
     st.image(img)
+    st.text(img.shape)
     st.image(img1)
+    st.text(img1.shape)
     #pred_1 = greedy_decoder(model_1(img1), vocab)
     #pred_2 = greedy_decoder(model_2(img1), vocab)
     pred_3 = greedy_decoder(model_3(img1), vocab)
