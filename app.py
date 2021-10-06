@@ -66,11 +66,11 @@ def create_model(type=0):
     ])
     return model
 
-model_1 = create_model(0)
-model_2 = create_model(0)
+#model_1 = create_model(0)
+#model_2 = create_model(0)
 model_3 = create_model(1)
-model_1.load_weights('model_words_1.h5')
-model_2.load_weights('model_words_2.h5')
+#model_1.load_weights('model_words_1.h5')
+#model_2.load_weights('model_words_2.h5')
 model_3.load_weights('model_words_3.h5')
 
 vocab = [' ', '!', '"', '#', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '?', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
@@ -108,8 +108,8 @@ realtime_update = st.sidebar.checkbox("Update in realtime", True)
 height = 32
 width = 128
 
-canvas_h = height * 3
-canvas_w = width * 3
+canvas_h = height * 5
+canvas_w = width * 5
 
 # Create a canvas component
 canvas_result = st_canvas(
@@ -133,11 +133,11 @@ if canvas_result.image_data is not None:
     st.image(img)
     img1 = img.reshape([1, width, height, 1])
     img2 = img.reshape([1, height, width, 1])
-    pred_1 = greedy_decoder(model_1(img1), vocab)
-    pred_2 = greedy_decoder(model_2(img1), vocab)
+    #pred_1 = greedy_decoder(model_1(img1), vocab)
+    #pred_2 = greedy_decoder(model_2(img1), vocab)
     pred_3 = greedy_decoder(model_3(img2), vocab)
-    st.write(f'Texte prédit (modèle 1) :', pred_1[0])
-    st.write(f'Texte prédit (modèle 2) :', pred_2[0])
+    #st.write(f'Texte prédit (modèle 1) :', pred_1[0])
+    #st.write(f'Texte prédit (modèle 2) :', pred_2[0])
     st.write(f'Texte prédit (modèle 3) :', pred_3[0])
 
 if canvas_result.json_data is not None:
