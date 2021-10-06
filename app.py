@@ -14,6 +14,7 @@ from PIL import Image
 import streamlit as st
 from streamlit_drawable_canvas import st_canvas
 import tensorflow as tf
+import tensorflow.keras.backend as K
 import cv2
 import numpy as np
 
@@ -142,6 +143,25 @@ if canvas_result.image_data is not None:
     #st.write(f'Texte prédit (modèle 1) :', pred_1[0])
     #st.write(f'Texte prédit (modèle 2) :', pred_2[0])
     st.write(f'Texte prédit (modèle 3) :', pred_3[0])
+   
+    with tf.GradientTape() as tape:
+        last_conv_layer = model_3.get_layer('conv2d_4')
+        iterate = tf.keras.models.Model([model3.inputs], [model3.output, last_conv_layer.output])
+        model_out, last_conv_layer = iterate(img1)
+        class_out = model_out[:, np.argmax(model_out[0])]
+        grads = tape.gradient(class_out, last_conv_layer)
+        pooled_grads = K.mean(grads, axis=(0, 1, 2))
+
+    heatmap = tf.reduce_mean(tf.multiply(pooled_grads, last_conv_layer), axis=-1)
+    heatmap = np.maximum(heatmap, 0)
+    heatmap /= np.max(heatmap)
+    heatmap = heatmap.reshape((8, 8))
+    heatmap = cv2.resize(heatmap, (img.shape[1], img.shape[0]))
+    heatmap = cv2.applyColorMap(np.uint8(255*heatmap), cv2.COLORMAP_JET)
+    img = heatmap * 0.5 + img
+    st.image(cv2.resize(img, (width, height)))
+
+
 
 if canvas_result.json_data is not None:
     pass
