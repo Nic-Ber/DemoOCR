@@ -130,14 +130,13 @@ canvas_result = st_canvas(
 if canvas_result.image_data is not None:
     img = cv2.resize(canvas_result.image_data.astype(np.float32), (width, height), interpolation = cv2.INTER_NEAREST)
     img = cv2.cvtColor(img, cv2.COLOR_RGBA2GRAY) / 255.
+    img1 = img.reshape([1, height, width, 1])
+
     st.image(img)
-    img1 = img.reshape([1, width, height, 1])
-    img2 = img.reshape([1, height, width, 1])
     st.image(img1)
-    st.image(img2)
-    #pred_1 = greedy_decoder(model_1(img1), vocab)
-    #pred_2 = greedy_decoder(model_2(img1), vocab)
-    pred_3 = greedy_decoder(model_3(img2), vocab)
+    #pred_1 = greedy_decoder(model_1(img), vocab)
+    #pred_2 = greedy_decoder(model_2(img), vocab)
+    pred_3 = greedy_decoder(model_3(img), vocab)
     #st.write(f'Texte prédit (modèle 1) :', pred_1[0])
     #st.write(f'Texte prédit (modèle 2) :', pred_2[0])
     st.write(f'Texte prédit (modèle 3) :', pred_3[0])
