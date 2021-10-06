@@ -17,11 +17,23 @@ import tensorflow as tf
 import cv2
 import numpy as np
 
-def create_model():
+def create_model(type=0):
+    if type==0:
+        input_shape = (128, 32, 1)
+        pool_size = (1, 2)
+        strides = (1, 2)
+        axis = 2
+    else:
+        input_shape = (32, 128, 1)
+        pool_size = (2, 1)
+        strides = (2, 1)
+        axis = 1
+
+
     model = tf.keras.Sequential(layers=[
         # Convolution Part : Extraction Feature
         # Layer 1
-        tf.keras.layers.Conv2D(filters=32, kernel_size=(5,5), padding='SAME', input_shape = (128, 32, 1)),
+        tf.keras.layers.Conv2D(filters=32, kernel_size=(5,5), padding='SAME', input_shape=input_shape),
         tf.keras.layers.BatchNormalization(),
         tf.keras.layers.LeakyReLU(),
         tf.keras.layers.MaxPooling2D(pool_size=(2,2), strides=(2,2)),
@@ -34,19 +46,19 @@ def create_model():
         tf.keras.layers.Conv2D(filters=128, kernel_size=(3,3), padding='SAME'),
         tf.keras.layers.BatchNormalization(),
         tf.keras.layers.LeakyReLU(),
-        tf.keras.layers.MaxPooling2D(pool_size=(1,2), strides=(1,2)),
+        tf.keras.layers.MaxPooling2D(pool_size=pool_size, strides=strides),
         # Layer 4
         tf.keras.layers.Conv2D(filters=128, kernel_size=(3,3), padding='SAME'),
         tf.keras.layers.BatchNormalization(),
         tf.keras.layers.LeakyReLU(),
-        tf.keras.layers.MaxPooling2D(pool_size=(1,2), strides=(1,2)),
+        tf.keras.layers.MaxPooling2D(pool_size=pool_size, strides=strides),
         # Layer 5
         tf.keras.layers.Conv2D(filters=256, kernel_size=(3,3), padding='SAME'),
         tf.keras.layers.BatchNormalization(),
         tf.keras.layers.LeakyReLU(),
-        tf.keras.layers.MaxPooling2D(pool_size=(1,2), strides=(1,2)),
+        tf.keras.layers.MaxPooling2D(pool_size=pool_size, strides=strides),
         # Remove axis 2
-        tf.keras.layers.Lambda(lambda x : tf.squeeze(x, axis=2)),
+        tf.keras.layers.Lambda(lambda x : tf.squeeze(x, axis=axis)),
         # Bidirectionnal RNN
         tf.keras.layers.Bidirectional(tf.keras.layers.GRU(256, return_sequences=True)),
         # Classification of characters
@@ -54,10 +66,12 @@ def create_model():
     ])
     return model
 
-model_1 = create_model()
-model_2 = create_model()
+model_1 = create_model(0)
+model_2 = create_model(0)
+model_3 = create_model(1)
 model_1.load_weights('model_words_1.h5')
 model_2.load_weights('model_words_2.h5')
+model_3.load_weights('model_words_3.h5')
 
 vocab = [' ', '!', '"', '#', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '?', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 
@@ -94,8 +108,8 @@ realtime_update = st.sidebar.checkbox("Update in realtime", True)
 height = 32
 width = 128
 
-canvas_h = 64
-canvas_w = 256
+canvas_h = height * 3
+canvas_w = width * 3
 
 # Create a canvas component
 canvas_result = st_canvas(
@@ -120,8 +134,10 @@ if canvas_result.image_data is not None:
     img = img.reshape([1, width, height, 1])
     pred_1 = greedy_decoder(model_1(img), vocab)
     pred_2 = greedy_decoder(model_2(img), vocab)
+    pred_3 = greedy_decoder(model_3(img), vocab)
     st.write(f'Texte prédit (modèle 1) :', pred_1[0])
     st.write(f'Texte prédit (modèle 2) :', pred_2[0])
+    st.write(f'Texte prédit (modèle 3) :', pred_3[0])
 
 if canvas_result.json_data is not None:
     pass
