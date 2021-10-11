@@ -147,7 +147,7 @@ if canvas_result.image_data is not None:
     #st.write(f'Texte prédit (modèle 1) :', pred_1[0])
     #st.write(f'Texte prédit (modèle 2) :', pred_2[0])
     st.write(f'Texte prédit (modèle 3) :', pred_3[0])
-    #st.write(f'Texte prédit (modèle 4) :', pred_4[0])
+    st.write(f'Texte prédit (modèle 4) :', pred_4[0])
 
     if False:
         with tf.GradientTape() as tape:
