@@ -143,7 +143,7 @@ if canvas_result.image_data is not None:
     #pred_1 = greedy_decoder(model_1(img1), vocab)
     #pred_2 = greedy_decoder(model_2(img1), vocab)
     pred_3 = greedy_decoder(model_3(img1), vocab)
-    #pred_4 = greedy_decoder(model_4(img1), vocab)
+    pred_4 = greedy_decoder(model_4(img1), vocab)
     #st.write(f'Texte prédit (modèle 1) :', pred_1[0])
     #st.write(f'Texte prédit (modèle 2) :', pred_2[0])
     st.write(f'Texte prédit (modèle 3) :', pred_3[0])
