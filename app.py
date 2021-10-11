@@ -74,7 +74,7 @@ model_4 = create_model(1)
 #model_1.load_weights('model_words_1.h5')
 #model_2.load_weights('model_words_2.h5')
 model_3.load_weights('model_words_3.h5')
-#model_4.load_weights('model_words_4.h5')
+model_4.load_weights('model_words_4.h5')
 
 vocab = [' ', '!', '"', '#', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '?', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
 '','','','','','','','','','','','','','','','','','','','','']
