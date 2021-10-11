@@ -70,11 +70,11 @@ def create_model(type=0):
 #model_1 = create_model(0)
 #model_2 = create_model(0)
 model_3 = create_model(1)
-model_4 = create_model(1)
+#model_4 = create_model(1)
 #model_1.load_weights('model_words_1.h5')
 #model_2.load_weights('model_words_2.h5')
 model_3.load_weights('model_words_3.h5')
-model_4.load_weights('model_words_4.h5')
+#model_4.load_weights('model_words_4.h5')
 
 vocab = [' ', '!', '"', '#', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '?', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
 '','','','','','','','','','','','','','','','','','','','','']
@@ -143,11 +143,11 @@ if canvas_result.image_data is not None:
     #pred_1 = greedy_decoder(model_1(img1), vocab)
     #pred_2 = greedy_decoder(model_2(img1), vocab)
     pred_3 = greedy_decoder(model_3(img1), vocab)
-    pred_4 = greedy_decoder(model_4(img1), vocab)
+    #pred_4 = greedy_decoder(model_4(img1), vocab)
     #st.write(f'Texte prédit (modèle 1) :', pred_1[0])
     #st.write(f'Texte prédit (modèle 2) :', pred_2[0])
     st.write(f'Texte prédit (modèle 3) :', pred_3[0])
-    st.write(f'Texte prédit (modèle 4) :', pred_4[0])
+    #st.write(f'Texte prédit (modèle 4) :', pred_4[0])
 
     if False:
         with tf.GradientTape() as tape:
