@@ -153,17 +153,17 @@ if canvas_result.image_data is not None:
             st.write(np.argmax(model_out, axis=2))
             text = [vocab[i] for i in np.argmax(model_out, axis=2)]
             st.write(text)
-            class_out = model_out[:, np.argmax(model_out[0])]
-            grads = tape.gradient(class_out, last_conv_layer)
-            pooled_grads = K.mean(grads, axis=(0, 1, 2))
-        heatmap = tf.reduce_mean(tf.multiply(pooled_grads, last_conv_layer), axis=-1)
-        heatmap = np.maximum(heatmap, 0)
-        heatmap /= np.max(heatmap)
-        heatmap = heatmap.reshape((8, 8))
-        heatmap = cv2.resize(heatmap, (img.shape[1], img.shape[0]))
-        heatmap = cv2.applyColorMap(np.uint8(255*heatmap), cv2.COLORMAP_JET)
-        img = heatmap * 0.5 + img
-        st.image(cv2.resize(img, (width, height)))
+            #class_out = model_out[:, np.argmax(model_out[0])]
+            #grads = tape.gradient(class_out, last_conv_layer)
+            #pooled_grads = K.mean(grads, axis=(0, 1, 2))
+        #heatmap = tf.reduce_mean(tf.multiply(pooled_grads, last_conv_layer), axis=-1)
+        #heatmap = np.maximum(heatmap, 0)
+        #heatmap /= np.max(heatmap)
+        #heatmap = heatmap.reshape((8, 8))
+        #heatmap = cv2.resize(heatmap, (img.shape[1], img.shape[0]))
+        #heatmap = cv2.applyColorMap(np.uint8(255*heatmap), cv2.COLORMAP_JET)
+        #img = heatmap * 0.5 + img
+        #st.image(cv2.resize(img, (width, height)))
 
 
 
