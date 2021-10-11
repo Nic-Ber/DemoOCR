@@ -153,7 +153,7 @@ if canvas_result.image_data is not None:
             st.write(np.argmax(model_out, axis=2))
             text = ''
             for i in np.argmax(model_out, axis=2):
-                text += vocab[i]
+                text += vocab[i.astype(int)]
             st.write(text)
             #class_out = model_out[:, np.argmax(model_out[0])]
             #grads = tape.gradient(class_out, last_conv_layer)
