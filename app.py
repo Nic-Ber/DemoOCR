@@ -130,8 +130,8 @@ canvas_result = st_canvas(
 # Do something interesting with the image data and paths
 if canvas_result.image_data is not None:
     img = cv2.resize(canvas_result.image_data.astype(np.float32), (width, height), interpolation = cv2.INTER_NEAREST)
-    img1 = cv2.cvtColor(img, cv2.COLOR_RGBA2GRAY) / 255.
-    img1 = img1.reshape([1, height, width, 1])
+    img = cv2.cvtColor(img, cv2.COLOR_RGBA2GRAY) / 255.
+    img1 = img.reshape([1, height, width, 1])
 
     st.image(img)
     #st.text(img.shape)
