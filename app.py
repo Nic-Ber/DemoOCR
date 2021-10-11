@@ -144,12 +144,12 @@ if canvas_result.image_data is not None:
     #st.write(f'Texte prédit (modèle 2) :', pred_2[0])
     st.write(f'Texte prédit (modèle 3) :', pred_3[0])
 
-    if False:
+    if True:
         with tf.GradientTape() as tape:
             last_conv_layer = model_3.get_layer('conv2d_4')
             iterate = tf.keras.models.Model([model_3.inputs], [model_3.output, last_conv_layer.output])
             model_out, last_conv_layer = iterate(img1)
-            st.write(model_out.shape)
+            #st.write(model_out.shape)
             class_out = model_out[:, np.argmax(model_out[0])]
             grads = tape.gradient(class_out, last_conv_layer)
             pooled_grads = K.mean(grads, axis=(0, 1, 2))
