@@ -76,7 +76,6 @@ model_3.load_weights('model_words_3.h5')
 
 vocab = [' ', '!', '"', '#', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '?', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
 '','','','','','','','','','','','','','','','','','','','','']
-st.write(vocab[99])
 
 def decode_codes(codes, charList):
     table = tf.lookup.StaticHashTable(tf.lookup.KeyValueTensorInitializer(np.arange(len(charList)), charList,  key_dtype=tf.int32), '', name='id2char')
@@ -152,7 +151,7 @@ if canvas_result.image_data is not None:
             iterate = tf.keras.models.Model([model_3.inputs], [model_3.output, last_conv_layer.output])
             model_out, last_conv_layer = iterate(img1)
             st.write(np.argmax(model_out, axis=2))
-            text = [i for i in np.argmax(model_out, axis=2)]
+            text = [vocab[i] for i in np.argmax(model_out, axis=2)]
             st.write(text)
             class_out = model_out[:, np.argmax(model_out[0])]
             grads = tape.gradient(class_out, last_conv_layer)
