@@ -152,6 +152,7 @@ if canvas_result.image_data is not None:
             model_out, last_conv_layer = iterate(img1)
             list_ind = np.argmax(model_out, axis=2).astype(int)
             text = []
+            st.write(list_ind.shape)
             for i in list_ind:
                 st.write(i)
             st.write(text)
