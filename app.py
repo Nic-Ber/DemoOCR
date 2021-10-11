@@ -70,7 +70,7 @@ def create_model(type=0):
 #model_1 = create_model(0)
 #model_2 = create_model(0)
 model_3 = create_model(1)
-#model_4 = create_model(1)
+model_4 = create_model(1)
 #model_1.load_weights('model_words_1.h5')
 #model_2.load_weights('model_words_2.h5')
 model_3.load_weights('model_words_3.h5')
