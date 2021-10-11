@@ -151,9 +151,9 @@ if canvas_result.image_data is not None:
             iterate = tf.keras.models.Model([model_3.inputs], [model_3.output, last_conv_layer.output])
             model_out, last_conv_layer = iterate(img1)
             list_ind = np.argmax(model_out, axis=2).astype(int)
-            text = ''
+            text = []
             for i in list_ind:
-                text += vocab[i]
+                text.append(vocab[i])
             st.write(text)
             #class_out = model_out[:, np.argmax(model_out[0])]
             #grads = tape.gradient(class_out, last_conv_layer)
