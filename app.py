@@ -130,12 +130,12 @@ canvas_result = st_canvas(
 # Do something interesting with the image data and paths
 if canvas_result.image_data is not None:
     img = cv2.resize(canvas_result.image_data.astype(np.float32), (width, height), interpolation = cv2.INTER_NEAREST)
-    img = cv2.cvtColor(img, cv2.COLOR_RGBA2GRAY) / 255.
-    img1 = img.reshape([1, height, width, 1])
+    img1 = cv2.cvtColor(img, cv2.COLOR_RGBA2GRAY) / 255.
+    img1 = img1.reshape([1, height, width, 1])
 
-    #st.image(img)
+    st.image(img)
     #st.text(img.shape)
-    st.image(img1)
+    #st.image(img1)
     #st.text(img1.shape)
     #pred_1 = greedy_decoder(model_1(img1), vocab)
     #pred_2 = greedy_decoder(model_2(img1), vocab)
@@ -164,8 +164,8 @@ if canvas_result.image_data is not None:
 
 
 
-if canvas_result.json_data is not None:
-    pass
+#if canvas_result.json_data is not None:
+    #pass
     #st.write(canvas_result.json_data["objects"])
     #st.dataframe(pd.json_normalize(canvas_result.json_data["objects"]))
     
