@@ -2,11 +2,8 @@
 """
 Created on Fri Aug 27 15:07:54 2021
 
-@author: Admin
+@author: Nicolas BERNARDIN
 """
-
-#     "F:\MES DOCUMENTS\DATA SCIENTEST\PROJET\Notebooks\2021-08-27 Test Canvas Streamlit.py"
-
 
 
 #import pandas as pd
@@ -18,6 +15,9 @@ import tensorflow.keras.backend as K
 import cv2
 import numpy as np
 
+# fonction générique pour définir les modèles avant de charger les poids
+# le type 0 est la première tentative (qui avait un problème dans le reshape des largeurs / hauteurs)
+# et le type 1 est celui qui correspond au code fourni dans le fichier 06
 def create_model(type=0):
     if type==0:
         input_shape = (128, 32, 1)
@@ -29,7 +29,6 @@ def create_model(type=0):
         pool_size = (2, 1)
         strides = (2, 1)
         axis = 1
-
 
     model = tf.keras.Sequential(layers=[
         # Convolution Part : Extraction Feature
@@ -79,6 +78,7 @@ model_4.load_weights('model_words_4.h5')
 vocab = [' ', '!', '"', '#', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '?', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
 '','','','','','','','','','','','','','','','','','','','','']
 
+# définition des fonctions pour décoder
 def decode_codes(codes, charList):
     table = tf.lookup.StaticHashTable(tf.lookup.KeyValueTensorInitializer(np.arange(len(charList)), charList,  key_dtype=tf.int32), '', name='id2char')
     return table.lookup(codes)
@@ -149,6 +149,7 @@ if canvas_result.image_data is not None:
     st.write(f'Texte prédit (modèle 3) :', pred_3[0])
     st.write(f'Texte prédit (modèle 4) :', pred_4[0])
 
+    # ici, tentative de mise en place de la technique Grad-CAM, mais j'ai encore un problème avec le calcul de class_out, donc ce n'est pas opérationnel...
     if False:
         with tf.GradientTape() as tape:
             last_conv_layer = model_3.get_layer('conv2d_4')
