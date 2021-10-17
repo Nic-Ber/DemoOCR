@@ -68,7 +68,7 @@ model_lstm = create_model('LSTM')
 model_conv1d = create_model('Conv')
 
 #model_gru.load_weights('model_bi_gru_5e.h5')
-model_lstm.load_weights('model_bi_lstm_5e.h5')
+#model_lstm.load_weights('model_bi_lstm_5e.h5')
 model_conv1d.load_weights('model_conv1d_5e.h5')
 
 
