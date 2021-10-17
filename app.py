@@ -14,8 +14,7 @@ import tensorflow as tf
 import cv2
 #import numpy as np
 
-vocab = [' ', '!', '"', '#', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '?', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-'','','','','','','','','','','','','','','','','','','','','']
+vocab = [' ', '!', '"', '#', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '?', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 numHidden = 256
 
 def create_model(var):
@@ -67,8 +66,8 @@ model_gru = create_model('GRU')
 model_lstm = create_model('LSTM')
 model_conv1d = create_model('Conv')
 
-#model_gru.load_weights('model_bi_gru_5e.h5')
-#model_lstm.load_weights('model_bi_lstm_5e.h5')
+model_gru.load_weights('model_bi_gru_5e.h5')
+model_lstm.load_weights('model_bi_lstm_5e.h5')
 model_conv1d.load_weights('model_conv1d_5e.h5')
 
 
