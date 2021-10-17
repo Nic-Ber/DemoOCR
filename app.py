@@ -141,7 +141,7 @@ if canvas_result.image_data is not None:
     pred_conv5 = greedy_decoder(model_conv1d5(img1), vocab)
     pred_gru50 = greedy_decoder(model_gru50(img1), vocab)
     pred_lstm50 = greedy_decoder(model_lstm50(img1), vocab)
-    pred_conv20 = greedy_decoder(model_conv1d50(img1), vocab)
+    pred_conv20 = greedy_decoder(model_conv1d20(img1), vocab)
     
     st.write(f'Texte prédit (modèle GRU - 5 epochs) :', pred_gru5[0])
     st.write(f'Texte prédit (modèle GRU - 50 epochs) :', pred_gru50[0])
