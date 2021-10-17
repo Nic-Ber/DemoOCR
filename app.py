@@ -6,65 +6,61 @@ Created on Fri Aug 27 15:07:54 2021
 """
 
 
-#import pandas as pd
 from PIL import Image
 import streamlit as st
 from streamlit_drawable_canvas import st_canvas
 import tensorflow as tf
-from tensorflow.keras import Sequential
-from tensorflow.keras.layers import Conv2D, BatchNormalization, LeakyReLU, MaxPooling2D, Lambda
-from tensorflow.keras.layers import GRU, Bidirectional, Dense, LSTM, Conv1D
 #import tensorflow.keras.backend as K
 import cv2
-import numpy as np
+#import numpy as np
 
 vocab = [' ', '!', '"', '#', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '?', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
 '','','','','','','','','','','','','','','','','','','','','']
 numHidden = 256
 
 def create_model(var):
-    model = Sequential()
+    model = tf.keras.Sequential()
     # Convolution Part : Extraction Feature
     # Layer 1
-    model.add(Conv2D(filters=32, kernel_size=(5,5), padding='SAME', input_shape = (32, 128, 1)))
-    model.add(BatchNormalization())
-    model.add(LeakyReLU())
-    model.add(MaxPooling2D(pool_size=(2,2), strides=(2,2)))
+    model.add(tf.keras.layers.Conv2D(filters=32, kernel_size=(5,5), padding='SAME', input_shape = (32, 128, 1)))
+    model.add(tf.keras.layers.BatchNormalization())
+    model.add(tf.keras.layers.LeakyReLU())
+    model.add(tf.keras.layers.MaxPooling2D(pool_size=(2,2), strides=(2,2)))
     # Layer 2
-    model.add(Conv2D(filters=64, kernel_size=(5,5), padding='SAME'))
-    model.add(BatchNormalization())
-    model.add(LeakyReLU())
-    model.add(MaxPooling2D(pool_size=(2,2), strides=(2,2)))
+    model.add(tf.keras.layers.Conv2D(filters=64, kernel_size=(5,5), padding='SAME'))
+    model.add(tf.keras.layers.BatchNormalization())
+    model.add(tf.keras.layers.LeakyReLU())
+    model.add(tf.keras.layers.MaxPooling2D(pool_size=(2,2), strides=(2,2)))
     # Layer 3
-    model.add(Conv2D(filters=128, kernel_size=(3,3), padding='SAME'))
-    model.add(BatchNormalization())
-    model.add(LeakyReLU())
-    model.add(MaxPooling2D(pool_size=(2,1), strides=(2,1)))
+    model.add(tf.keras.layers.Conv2D(filters=128, kernel_size=(3,3), padding='SAME'))
+    model.add(tf.keras.layers.BatchNormalization())
+    model.add(tf.keras.layers.LeakyReLU())
+    model.add(tf.keras.layers.MaxPooling2D(pool_size=(2,1), strides=(2,1)))
     # Layer 4
-    model.add(Conv2D(filters=128, kernel_size=(3,3), padding='SAME'))
-    model.add(BatchNormalization())
-    model.add(LeakyReLU())
-    model.add(MaxPooling2D(pool_size=(2,1), strides=(2,1)))
+    model.add(tf.keras.layers.Conv2D(filters=128, kernel_size=(3,3), padding='SAME'))
+    model.add(tf.keras.layers.BatchNormalization())
+    model.add(tf.keras.layers.LeakyReLU())
+    model.add(tf.keras.layers.MaxPooling2D(pool_size=(2,1), strides=(2,1)))
     # Layer 5
-    model.add(Conv2D(filters=256, kernel_size=(3,3), padding='SAME'))
-    model.add(BatchNormalization())
-    model.add(LeakyReLU())
-    model.add(MaxPooling2D(pool_size=(2,1), strides=(2,1)))
+    model.add(tf.keras.layers.Conv2D(filters=256, kernel_size=(3,3), padding='SAME'))
+    model.add(tf.keras.layers.BatchNormalization())
+    model.add(tf.keras.layers.LeakyReLU())
+    model.add(tf.keras.layers.MaxPooling2D(pool_size=(2,1), strides=(2,1)))
     # Remove axis 2
     model.add(Lambda(lambda x : tf.squeeze(x, axis=1)))
     if var == 'GRU':
         # Bidirectionnal RNN
-        model.add(Bidirectional(GRU(numHidden, return_sequences=True)))
+        model.add(tf.keras.layers.Bidirectional(tf.keras.layers.GRU(numHidden, return_sequences=True)))
     elif var == 'LSTM':
         # Bidirectionnal RNN
-        model.add(Bidirectional(LSTM(numHidden, return_sequences=True)))
+        model.add(tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(numHidden, return_sequences=True)))
     elif var == 'Conv':
         # Consolution 1D
-        model.add(Conv1D(filters=numHidden, kernel_size=3))
+        model.add(tf.keras.layers.Conv1D(filters=numHidden, kernel_size=3))
     else:
         raise ValueError()
     # Classification of characters
-    model.add(Dense(len(vocab)+1))
+    model.add(tf.keras.layers.Dense(len(vocab)+1))
     return model
 
 model_gru = create_model('GRU')
