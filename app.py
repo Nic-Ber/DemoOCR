@@ -62,13 +62,19 @@ def create_model(var):
     model.add(tf.keras.layers.Dense(len(vocab)+1))
     return model
 
-model_gru = create_model('GRU')
-model_lstm = create_model('LSTM')
-model_conv1d = create_model('Conv')
+model_gru5 = create_model('GRU')
+model_lstm5 = create_model('LSTM')
+model_conv1d5 = create_model('Conv')
+model_gru50 = create_model('GRU')
+model_lstm50 = create_model('LSTM')
+model_conv1d20 = create_model('Conv')
 
-model_gru.load_weights('model_bi_gru_5e.h5')
-model_lstm.load_weights('model_bi_lstm_5e.h5')
-model_conv1d.load_weights('model_conv1d_5e.h5')
+model_gru5.load_weights('model_bi_gru_5e.h5')
+model_lstm5.load_weights('model_bi_lstm_5e.h5')
+model_conv1d5.load_weights('model_conv1d_5e.h5')
+model_gru50.load_weights('model_bi_gru_50e.h5')
+model_lstm50load_weights('model_bi_lstm_50e.h5')
+model_conv1d20.load_weights('model_conv1d_20e.h5')
 
 
 # définition des fonctions pour décoder
@@ -130,13 +136,19 @@ if canvas_result.image_data is not None:
     img1 = img.reshape([1, height, width, 1])
 
     #st.image(img)
-    pred_gru = greedy_decoder(model_gru(img1), vocab)
-    pred_lstm = greedy_decoder(model_lstm(img1), vocab)
-    pred_conv = greedy_decoder(model_conv1d(img1), vocab)
+    pred_gru5 = greedy_decoder(model_gru5(img1), vocab)
+    pred_lstm5 = greedy_decoder(model_lstm5(img1), vocab)
+    pred_conv5 = greedy_decoder(model_conv1d5(img1), vocab)
+    pred_gru50 = greedy_decoder(model_gru50(img1), vocab)
+    pred_lstm50 = greedy_decoder(model_lstm50(img1), vocab)
+    pred_conv20 = greedy_decoder(model_conv1d50(img1), vocab)
     
-    st.write(f'Texte prédit (modèle GRU) :', pred_gru[0])
-    st.write(f'Texte prédit (modèle LSTM) :', pred_lstm[0])
-    st.write(f'Texte prédit (modèle Conv1d) :', pred_conv[0])
+    st.write(f'Texte prédit (modèle GRU - 5 epochs) :', pred_gru5[0])
+    st.write(f'Texte prédit (modèle GRU - 50 epochs) :', pred_gru50[0])
+    st.write(f'Texte prédit (modèle LSTM - 5 epochs) :', pred_lstm5[0])
+    st.write(f'Texte prédit (modèle LSTM - 50 epochs) :', pred_lstm50[0])
+    st.write(f'Texte prédit (modèle Conv1d - 5 epochs) :', pred_conv5[0])
+    st.write(f'Texte prédit (modèle Conv1d - 20 epochs) :', pred_conv20[0])
 
     # ici, tentative de mise en place de la technique Grad-CAM, mais j'ai encore un problème avec le calcul de class_out, donc ce n'est pas opérationnel...
     if False:
