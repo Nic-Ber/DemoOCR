@@ -15,68 +15,63 @@ import tensorflow.keras.backend as K
 import cv2
 import numpy as np
 
-# fonction générique pour définir les modèles avant de charger les poids
-# le type 0 est la première tentative (qui avait un problème dans le reshape des largeurs / hauteurs)
-# et le type 1 est celui qui correspond au code fourni dans le fichier 06
-def create_model(type=0):
-    if type==0:
-        input_shape = (128, 32, 1)
-        pool_size = (1, 2)
-        strides = (1, 2)
-        axis = 2
-    else:
-        input_shape = (32, 128, 1)
-        pool_size = (2, 1)
-        strides = (2, 1)
-        axis = 1
-
-    model = tf.keras.Sequential(layers=[
-        # Convolution Part : Extraction Feature
-        # Layer 1
-        tf.keras.layers.Conv2D(filters=32, kernel_size=(5,5), padding='SAME', input_shape=input_shape),
-        tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.LeakyReLU(),
-        tf.keras.layers.MaxPooling2D(pool_size=(2,2), strides=(2,2)),
-        # Layer 2
-        tf.keras.layers.Conv2D(filters=64, kernel_size=(5,5), padding='SAME'),
-        tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.LeakyReLU(),
-        tf.keras.layers.MaxPooling2D(pool_size=(2,2), strides=(2,2)),
-        # Layer 3
-        tf.keras.layers.Conv2D(filters=128, kernel_size=(3,3), padding='SAME'),
-        tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.LeakyReLU(),
-        tf.keras.layers.MaxPooling2D(pool_size=pool_size, strides=strides),
-        # Layer 4
-        tf.keras.layers.Conv2D(filters=128, kernel_size=(3,3), padding='SAME'),
-        tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.LeakyReLU(),
-        tf.keras.layers.MaxPooling2D(pool_size=pool_size, strides=strides),
-        # Layer 5
-        tf.keras.layers.Conv2D(filters=256, kernel_size=(3,3), padding='SAME'),
-        tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.LeakyReLU(),
-        tf.keras.layers.MaxPooling2D(pool_size=pool_size, strides=strides),
-        # Remove axis 2
-        tf.keras.layers.Lambda(lambda x : tf.squeeze(x, axis=axis)),
-        # Bidirectionnal RNN
-        tf.keras.layers.Bidirectional(tf.keras.layers.GRU(256, return_sequences=True)),
-        # Classification of characters
-        tf.keras.layers.Dense(100)
-    ])
-    return model
-
-#model_1 = create_model(0)
-#model_2 = create_model(0)
-model_3 = create_model(1)
-model_4 = create_model(1)
-#model_1.load_weights('model_words_1.h5')
-#model_2.load_weights('model_words_2.h5')
-model_3.load_weights('model_words_3.h5')
-model_4.load_weights('model_words_4.h5')
-
 vocab = [' ', '!', '"', '#', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '?', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
 '','','','','','','','','','','','','','','','','','','','','']
+
+
+def create_model(var):
+    model = Sequential()
+    # Convolution Part : Extraction Feature
+    # Layer 1
+    model.add(Conv2D(filters=32, kernel_size=(5,5), padding='SAME', input_shape = (32, 128, 1)))
+    model.add(BatchNormalization())
+    model.add(LeakyReLU())
+    model.add(MaxPooling2D(pool_size=(2,2), strides=(2,2)))
+    # Layer 2
+    model.add(Conv2D(filters=64, kernel_size=(5,5), padding='SAME'))
+    model.add(BatchNormalization())
+    model.add(LeakyReLU())
+    model.add(MaxPooling2D(pool_size=(2,2), strides=(2,2)))
+    # Layer 3
+    model.add(Conv2D(filters=128, kernel_size=(3,3), padding='SAME'))
+    model.add(BatchNormalization())
+    model.add(LeakyReLU())
+    model.add(MaxPooling2D(pool_size=(2,1), strides=(2,1)))
+    # Layer 4
+    model.add(Conv2D(filters=128, kernel_size=(3,3), padding='SAME'))
+    model.add(BatchNormalization())
+    model.add(LeakyReLU())
+    model.add(MaxPooling2D(pool_size=(2,1), strides=(2,1)))
+    # Layer 5
+    model.add(Conv2D(filters=256, kernel_size=(3,3), padding='SAME'))
+    model.add(BatchNormalization())
+    model.add(LeakyReLU())
+    model.add(MaxPooling2D(pool_size=(2,1), strides=(2,1)))
+    # Remove axis 2
+    model.add(Lambda(lambda x : tf.squeeze(x, axis=1)))
+    if var == 'GRU':
+        # Bidirectionnal RNN
+        model.add(Bidirectional(GRU(numHidden, return_sequences=True)))
+    elif var == 'LSTM':
+        # Bidirectionnal RNN
+        model.add(Bidirectional(LSTM(numHidden, return_sequences=True)))
+    elif var == 'Conv':
+        # Consolution 1D
+        model.add(Conv1D(filters=numHidden, kernel_size=3))
+    else:
+        raise ValueError()
+    # Classification of characters
+    model.add(Dense(len(vocab)+1))
+    return model
+
+model_gru = create_model('GRU')
+model_lstm = create_model('LSTM')
+model_conv1d = create_model('Conv')
+
+model_gru.load_weights('model_bi_gru_5e.h5')
+model_lstm.load_weights('model_bi_lstm_5e.h5')
+model_conv1d.load_weights('model_conv1d_5e.h5')
+
 
 # définition des fonctions pour décoder
 def decode_codes(codes, charList):
@@ -136,7 +131,7 @@ if canvas_result.image_data is not None:
     img = cv2.cvtColor(img, cv2.COLOR_RGBA2GRAY) / 255.
     img1 = img.reshape([1, height, width, 1])
 
-    st.image(img)
+    #st.image(img)
     #st.text(img.shape)
     #st.image(img1)
     #st.text(img1.shape)
@@ -148,6 +143,14 @@ if canvas_result.image_data is not None:
     #st.write(f'Texte prédit (modèle 2) :', pred_2[0])
     st.write(f'Texte prédit (modèle 3) :', pred_3[0])
     st.write(f'Texte prédit (modèle 4) :', pred_4[0])
+    
+    pred_gru = greedy_decoder(model_gru(img1), vocab)
+    pred_lstm = greedy_decoder(model_lstm(img1), vocab)
+    pred_conv = greedy_decoder(model_conv1d(img1), vocab)
+    
+    st.write(f'Texte prédit (modèle GRU) :', pred_gru[0])
+    st.write(f'Texte prédit (modèle LSTM) :', pred_lstm[0])
+    st.write(f'Texte prédit (modèle Conv1d) :', pred_conv[0])
 
     # ici, tentative de mise en place de la technique Grad-CAM, mais j'ai encore un problème avec le calcul de class_out, donc ce n'est pas opérationnel...
     if False:
