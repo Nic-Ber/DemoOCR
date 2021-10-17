@@ -47,7 +47,7 @@ def create_model(var):
     model.add(tf.keras.layers.LeakyReLU())
     model.add(tf.keras.layers.MaxPooling2D(pool_size=(2,1), strides=(2,1)))
     # Remove axis 2
-    model.add(Lambda(lambda x : tf.squeeze(x, axis=1)))
+    model.add(tf.keras.layers.Lambda(lambda x : tf.squeeze(x, axis=1)))
     if var == 'GRU':
         # Bidirectionnal RNN
         model.add(tf.keras.layers.Bidirectional(tf.keras.layers.GRU(numHidden, return_sequences=True)))
