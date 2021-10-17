@@ -73,7 +73,7 @@ model_gru5.load_weights('model_bi_gru_5e.h5')
 model_lstm5.load_weights('model_bi_lstm_5e.h5')
 model_conv1d5.load_weights('model_conv1d_5e.h5')
 model_gru50.load_weights('model_bi_gru_50e.h5')
-model_lstm50load_weights('model_bi_lstm_50e.h5')
+model_lstm50.load_weights('model_bi_lstm_50e.h5')
 model_conv1d20.load_weights('model_conv1d_20e.h5')
 
 
