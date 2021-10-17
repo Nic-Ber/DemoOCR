@@ -132,18 +132,6 @@ if canvas_result.image_data is not None:
     img1 = img.reshape([1, height, width, 1])
 
     #st.image(img)
-    #st.text(img.shape)
-    #st.image(img1)
-    #st.text(img1.shape)
-    #pred_1 = greedy_decoder(model_1(img1), vocab)
-    #pred_2 = greedy_decoder(model_2(img1), vocab)
-    pred_3 = greedy_decoder(model_3(img1), vocab)
-    pred_4 = greedy_decoder(model_4(img1), vocab)
-    #st.write(f'Texte prédit (modèle 1) :', pred_1[0])
-    #st.write(f'Texte prédit (modèle 2) :', pred_2[0])
-    st.write(f'Texte prédit (modèle 3) :', pred_3[0])
-    st.write(f'Texte prédit (modèle 4) :', pred_4[0])
-    
     pred_gru = greedy_decoder(model_gru(img1), vocab)
     pred_lstm = greedy_decoder(model_lstm(img1), vocab)
     pred_conv = greedy_decoder(model_conv1d(img1), vocab)
