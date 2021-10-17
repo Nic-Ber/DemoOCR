@@ -11,7 +11,10 @@ from PIL import Image
 import streamlit as st
 from streamlit_drawable_canvas import st_canvas
 import tensorflow as tf
-import tensorflow.keras.backend as K
+from tensorflow.keras import Sequential
+from tensorflow.keras.layers import Conv2D, BatchNormalization, LeakyReLU, MaxPooling2D, Lambda
+from tensorflow.keras.layers import GRU, Bidirectional, Dense, LSTM, Conv1D
+#import tensorflow.keras.backend as K
 import cv2
 import numpy as np
 
