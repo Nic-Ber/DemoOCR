@@ -129,8 +129,9 @@ canvas_result = st_canvas(
 )
 
 
+def pred():
 # Do something interesting with the image data and paths
-if canvas_result.image_data is not None:
+#if canvas_result.image_data is not None:
     img = cv2.resize(canvas_result.image_data.astype(np.float32), (width, height), interpolation = cv2.INTER_NEAREST)
     img = cv2.cvtColor(img, cv2.COLOR_RGBA2GRAY) / 255.
     img1 = img.reshape([1, height, width, 1])
@@ -149,6 +150,7 @@ if canvas_result.image_data is not None:
     st.write(f'Texte prédit (modèle LSTM - 50 epochs) :', pred_lstm50[0])
     st.write(f'Texte prédit (modèle Conv1d - 5 epochs) :', pred_conv5[0])
     st.write(f'Texte prédit (modèle Conv1d - 20 epochs) :', pred_conv20[0])
+
 
     # ici, tentative de mise en place de la technique Grad-CAM, mais j'ai encore un problème avec le calcul de class_out, donc ce n'est pas opérationnel...
     if False:
@@ -173,6 +175,8 @@ if canvas_result.image_data is not None:
         st.image(cv2.resize(img, (width, height)))
 
 
+if st.button('Faire prédiction'):
+    pred()
 
 #if canvas_result.json_data is not None:
     #pass
