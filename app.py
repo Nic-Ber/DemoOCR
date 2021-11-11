@@ -98,12 +98,12 @@ def greedy_decoder(logits, charList):
     text = tf.sparse.to_dense(text).numpy().astype(str)
     return list(map(lambda x: ''.join(x), text))
 
-def confusion(logits):
+def confusion(logits, choix, pred):
     fig, ax = plt.subplots(figsize=(6,14))
     logits = tf.squeeze(tf.transpose(logits, (2, 1, 0)), axis=2)
     st.text('-'.join([voc[i] for i in tf.argmax(logits, axis=0).numpy()]))
     sns.heatmap(logits.numpy(), yticklabels=vocab, ax=ax, cbar=False) #cmap='flare_r'
-    ax.set_title('Correlation matrix')
+    ax.set_title('Correlation matrix -', choix, ':', pred)
     st.write(fig)
 
 
@@ -145,42 +145,42 @@ def pred(choix):
         pred_gru5 = greedy_decoder(logits_GRU_5, vocab)
         st.write(f'Texte prédit (modèle GRU - 5 epochs) :', pred_gru5[0])
         if choix == 'GRU 5':
-            confusion(logits_GRU_5)
+            confusion(logits_GRU_5, choix, pred_gru5[0])
 
     if choix == 'LSTM 5' or choix == 'Tous les modèles':
         logits_LSTM_5 = model_lstm5(img1)
         pred_lstm5 = greedy_decoder(logits_LSTM_5, vocab)
         st.write(f'Texte prédit (modèle LSTM - 5 epochs) :', pred_lstm5[0])
         if choix == 'LSTM 5':
-            confusion(logits_LSTM_5)
+            confusion(logits_LSTM_5, choix, pred_lstm5[0]))
 
     if choix == 'Conv1d 5' or choix == 'Tous les modèles':
         logits_Conv_5 = model_conv1d5(img1)
         pred_conv5 = greedy_decoder(logits_Conv_5, vocab)
         st.write(f'Texte prédit (modèle Conv1d - 5 epochs) :', pred_conv5[0])
         if choix == 'Conv1d 5':
-            confusion(logits_Conv_5)
+            confusion(logits_Conv_5, choix, pred_conv5[0])
 
     if choix == 'GRU 50' or choix == 'Tous les modèles':
         logits_GRU_50 = model_gru50(img1)
         pred_gru50 = greedy_decoder(logits_GRU_50, vocab)
         st.write(f'Texte prédit (modèle GRU - 50 epochs) :', pred_gru50[0])
         if choix == 'GRU 50':
-            confusion(logits_GRU_50)
+            confusion(logits_GRU_50, choix, pred_gru50[0])
 
     if choix == 'LSTM 50' or choix == 'Tous les modèles':
         logits_LSTM_50 = model_lstm50(img1)
         pred_lstm50 = greedy_decoder(logits_LSTM_50, vocab)
         st.write(f'Texte prédit (modèle LSTM - 50 epochs) :', pred_lstm50[0])
         if choix == 'LSTM 50':
-            confusion(logits_LSTM_50)
+            confusion(logits_LSTM_50, choix, pred_lstm50[0])
 
     if choix == 'Conv1d 20' or choix == 'Tous les modèles':
         logits_Conv_20 = model_conv1d20(img1)
         pred_conv20 = greedy_decoder(logits_Conv_20, vocab)
         st.write(f'Texte prédit (modèle Conv1d - 20 epochs) :', pred_conv20[0])
         if choix == 'Conv1d 20':
-            confusion(logits_Conv_20)
+            confusion(logits_Conv_20, choix, pred_conv20[0])
 
     # ici, tentative de mise en place de la technique Grad-CAM, mais j'ai encore un problème avec le calcul de class_out, donc ce n'est pas opérationnel...
     if False:
