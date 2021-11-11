@@ -120,7 +120,7 @@ canvas_result = st_canvas(
     stroke_width=stroke_width,
     stroke_color=stroke_color,
     background_color=bg_color,
-    background_image=Image.open(bg_image) if bg_image else None,
+    #background_image=Image.open(bg_image) if bg_image else None,
     update_streamlit=realtime_update,
     height=canvas_h,
     width=canvas_w,
@@ -174,6 +174,9 @@ def pred():
         img = heatmap * 0.5 + img
         st.image(cv2.resize(img, (width, height)))
 
+
+choix = st.radio('Choisir le modèle à utiliser',('Tous les modèles','GRU 5','GRU 50','LSTM 5','LSTM 50','Conv1d 5','Conv1d 20'))
+st.write(choix)
 
 if st.button('Faire prédiction'):
     pred()
