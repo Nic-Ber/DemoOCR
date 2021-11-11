@@ -103,7 +103,8 @@ def confusion(logits, choix, pred):
     logits = tf.squeeze(tf.transpose(logits, (2, 1, 0)), axis=2)
     st.text('-'.join([voc[i] for i in tf.argmax(logits, axis=0).numpy()]))
     sns.heatmap(logits.numpy(), yticklabels=vocab, ax=ax, cbar=False) #cmap='flare_r'
-    ax.set_title('Correlation matrix -', choix, ':', pred)
+    titre = 'Correlation matrix - ' + choix + ' : ' + pred
+    ax.set_title(titre)
     st.write(fig)
 
 
