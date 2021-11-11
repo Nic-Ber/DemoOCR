@@ -129,7 +129,7 @@ canvas_result = st_canvas(
 )
 
 
-def pred():
+def pred(choix):
 # Do something interesting with the image data and paths
 #if canvas_result.image_data is not None:
     img = cv2.resize(canvas_result.image_data.astype(np.float32), (width, height), interpolation = cv2.INTER_NEAREST)
@@ -137,19 +137,30 @@ def pred():
     img1 = img.reshape([1, height, width, 1])
 
     #st.image(img)
-    pred_gru5 = greedy_decoder(model_gru5(img1), vocab)
-    pred_lstm5 = greedy_decoder(model_lstm5(img1), vocab)
-    pred_conv5 = greedy_decoder(model_conv1d5(img1), vocab)
-    pred_gru50 = greedy_decoder(model_gru50(img1), vocab)
-    pred_lstm50 = greedy_decoder(model_lstm50(img1), vocab)
-    pred_conv20 = greedy_decoder(model_conv1d20(img1), vocab)
+    if choix == 'GRU 5' or choix == 'Tous les modèles':
+        pred_gru5 = greedy_decoder(model_gru5(img1), vocab)
+        st.write(f'Texte prédit (modèle GRU - 5 epochs) :', pred_gru5[0])
+
+    if choix == 'LSTM 5' or choix == 'Tous les modèles':
+        pred_lstm5 = greedy_decoder(model_lstm5(img1), vocab)
+        st.write(f'Texte prédit (modèle LSTM - 5 epochs) :', pred_lstm5[0])
+
+    if choix == 'Conv1d 5' or choix == 'Tous les modèles':
+        pred_conv5 = greedy_decoder(model_conv1d5(img1), vocab)
+        st.write(f'Texte prédit (modèle Conv1d - 5 epochs) :', pred_conv5[0])
+
+    if choix == 'GRU 50' or choix == 'Tous les modèles':
+        pred_gru50 = greedy_decoder(model_gru50(img1), vocab)
+        st.write(f'Texte prédit (modèle GRU - 50 epochs) :', pred_gru50[0])
+
+    if choix == 'LSTM 50' or choix == 'Tous les modèles':
+        pred_lstm50 = greedy_decoder(model_lstm50(img1), vocab)
+        st.write(f'Texte prédit (modèle LSTM - 50 epochs) :', pred_lstm50[0])
+
+    if choix == 'Conv1d 20' or choix == 'Tous les modèles':
+        pred_conv20 = greedy_decoder(model_conv1d20(img1), vocab)
+        st.write(f'Texte prédit (modèle Conv1d - 20 epochs) :', pred_conv20[0])
     
-    st.write(f'Texte prédit (modèle GRU - 5 epochs) :', pred_gru5[0])
-    st.write(f'Texte prédit (modèle GRU - 50 epochs) :', pred_gru50[0])
-    st.write(f'Texte prédit (modèle LSTM - 5 epochs) :', pred_lstm5[0])
-    st.write(f'Texte prédit (modèle LSTM - 50 epochs) :', pred_lstm50[0])
-    st.write(f'Texte prédit (modèle Conv1d - 5 epochs) :', pred_conv5[0])
-    st.write(f'Texte prédit (modèle Conv1d - 20 epochs) :', pred_conv20[0])
 
 
     # ici, tentative de mise en place de la technique Grad-CAM, mais j'ai encore un problème avec le calcul de class_out, donc ce n'est pas opérationnel...
@@ -176,10 +187,9 @@ def pred():
 
 
 choix = st.radio('Choisir le modèle à utiliser',('Tous les modèles','GRU 5','GRU 50','LSTM 5','LSTM 50','Conv1d 5','Conv1d 20'))
-st.write(choix)
 
 if st.button('Faire prédiction'):
-    pred()
+    pred(choix)
 
 #if canvas_result.json_data is not None:
     #pass
