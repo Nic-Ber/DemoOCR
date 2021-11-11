@@ -103,8 +103,8 @@ def confusion(logits):
     fig, ax = plt.subplots(figsize=(6,14))
     logits = tf.squeeze(tf.transpose(logits, (2, 1, 0)), axis=2)
     index = tf.argmax(logits, axis=0).numpy()
-    lettres = [vocab(i) for i in index]
-    st.write(lettres)
+    #lettres = [vocab(i) for i in index]
+    st.write(index)
     #st.write(' - '.join(vocab[]))
     sns.heatmap(logits.numpy(), yticklabels=vocab, ax=ax, cbar=False) #cmap='flare_r'
     ax.set_title('Correlation matrix')
