@@ -152,7 +152,7 @@ def pred(choix):
         pred_lstm5 = greedy_decoder(logits_LSTM_5, vocab)
         st.write(f'Texte prédit (modèle LSTM - 5 epochs) :', pred_lstm5[0])
         if choix == 'LSTM 5':
-            confusion(logits_LSTM_5, choix, pred_lstm5[0]))
+            confusion(logits_LSTM_5, choix, pred_lstm5[0])
 
     if choix == 'Conv1d 5' or choix == 'Tous les modèles':
         logits_Conv_5 = model_conv1d5(img1)
