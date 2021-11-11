@@ -186,6 +186,8 @@ def pred(choix):
         st.image(cv2.resize(img, (width, height)))
 
 
+st.write('<style>div.row-widget.stRadio > div{flex-direction:row;justify-content: center;} </style>', unsafe_allow_html=True)
+st.write('<style>div.st-bf{flex-direction:column;} div.st-ag{font-weight:bold;padding-left:2px;}</style>', unsafe_allow_html=True)
 choix = st.radio('Choisir le modèle à utiliser',('Tous les modèles','GRU 5','GRU 50','LSTM 5','LSTM 50','Conv1d 5','Conv1d 20'))
 
 if st.button('Faire prédiction'):
