@@ -120,8 +120,8 @@ realtime_update = st.sidebar.checkbox("Update in realtime", True)
 
 height = 32
 width = 128
-canvas_h = height * 5
-canvas_w = width * 5
+canvas_h = height * 4.5
+canvas_w = width * 4.5
 
 # Create a canvas component
 canvas_result = st_canvas(
