@@ -103,7 +103,7 @@ def confusion(logits):
     fig, ax = plt.subplots()
     logits = tf.squeeze(tf.transpose(logits, (2, 1, 0)), axis=2).numpy()
     sns.heatmap(logits, yticklabels=vocab, cmap='flare_r', ax=ax)
-    st.write(fig
+    st.write(fig)
 
 
 # Specify canvas parameters in application
