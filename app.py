@@ -141,7 +141,7 @@ def pred(choix):
         logits_GRU_5 = model_gru5(img1) 
         pred_gru5 = greedy_decoder(logits_GRU_5, vocab)
         st.write(f'Texte prédit (modèle GRU - 5 epochs) :', pred_gru5[0])
-        st.Write(logits_GRU_5)
+        st.write(logits_GRU_5)
 
     if choix == 'LSTM 5' or choix == 'Tous les modèles':
         pred_lstm5 = greedy_decoder(model_lstm5(img1), vocab)
