@@ -17,6 +17,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 vocab = [' ', '!', '"', '#', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '?', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+voc = vocab.append(' ')
 numHidden = 256
 
 def create_model(var):
@@ -102,10 +103,8 @@ def greedy_decoder(logits, charList):
 def confusion(logits):
     fig, ax = plt.subplots(figsize=(6,14))
     logits = tf.squeeze(tf.transpose(logits, (2, 1, 0)), axis=2)
-    index = tf.argmax(logits, axis=0).numpy()
-    #lettres = [vocab(i) for i in index]
-    st.write(index)
-    #st.write(' - '.join(vocab[]))
+    ind_lettres = tf.argmax(logits, axis=0).numpy()
+    st.write(' - '.join([voc[i] for i in ind_lettres]))
     sns.heatmap(logits.numpy(), yticklabels=vocab, ax=ax, cbar=False) #cmap='flare_r'
     ax.set_title('Correlation matrix')
     st.write(fig)
