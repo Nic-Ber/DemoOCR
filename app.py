@@ -79,7 +79,6 @@ model_gru50.load_weights('model_bi_gru_50e.h5')
 model_lstm50.load_weights('model_bi_lstm_50e.h5')
 model_conv1d20.load_weights('model_conv1d_20e.h5')
 
-
 # définition des fonctions pour décoder
 def decode_codes(codes, charList):
     table = tf.lookup.StaticHashTable(tf.lookup.KeyValueTensorInitializer(np.arange(len(charList)), charList,  key_dtype=tf.int32), '', name='id2char')
@@ -90,8 +89,7 @@ def greedy_decoder(logits, charList):
     predicted_codes, _ = tf.nn.ctc_greedy_decoder(
         # shape of tensor [max_time x batch_size x num_classes] 
         tf.transpose(logits, (1, 0, 2)),
-        [logits.shape[1]]*logits.shape[0]
-    )
+        [logits.shape[1]]*logits.shape[0])
     # convert to int32
     codes = tf.cast(predicted_codes[0], tf.int32)
     # Decode the index of caracter
@@ -103,8 +101,7 @@ def greedy_decoder(logits, charList):
 def confusion(logits):
     fig, ax = plt.subplots(figsize=(6,14))
     logits = tf.squeeze(tf.transpose(logits, (2, 1, 0)), axis=2)
-    ind_lettres = tf.argmax(logits, axis=0).numpy()
-    st.write(' - '.join([voc[i] for i in ind_lettres]))
+    st.write(r' - '.join([voc[i] for i in tf.argmax(logits, axis=0).numpy()]))
     sns.heatmap(logits.numpy(), yticklabels=vocab, ax=ax, cbar=False) #cmap='flare_r'
     ax.set_title('Correlation matrix')
     st.write(fig)
@@ -122,7 +119,6 @@ realtime_update = st.sidebar.checkbox("Update in realtime", True)
 
 height = 32
 width = 128
-
 canvas_h = height * 5
 canvas_w = width * 5
 
@@ -137,9 +133,7 @@ canvas_result = st_canvas(
     height=canvas_h,
     width=canvas_w,
     drawing_mode=drawing_mode,
-    key="canvas",
-)
-
+    key="canvas")
 
 def pred(choix):
 # Do something interesting with the image data and paths
