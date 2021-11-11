@@ -102,7 +102,7 @@ def greedy_decoder(logits, charList):
 stroke_width = st.sidebar.slider("Stroke width: ", 1, 25, 8)
 stroke_color = st.sidebar.color_picker("Stroke color hex: ")
 bg_color = st.sidebar.color_picker("Background color hex: ", "#eee")
-bg_image = st.sidebar.file_uploader("Background image:", type=["png", "jpg"])
+#bg_image = st.sidebar.file_uploader("Background image:", type=["png", "jpg"])
 drawing_mode = st.sidebar.selectbox(
     "Drawing tool:", ("freedraw", "line", "rect", "circle", "transform")
 )
@@ -138,8 +138,10 @@ def pred(choix):
 
     #st.image(img)
     if choix == 'GRU 5' or choix == 'Tous les modèles':
-        pred_gru5 = greedy_decoder(model_gru5(img1), vocab)
+        logits_GRU_5 = model_gru5(img1) 
+        pred_gru5 = greedy_decoder(logits_GRU_5, vocab)
         st.write(f'Texte prédit (modèle GRU - 5 epochs) :', pred_gru5[0])
+        st.Write(logits_GRU_5)
 
     if choix == 'LSTM 5' or choix == 'Tous les modèles':
         pred_lstm5 = greedy_decoder(model_lstm5(img1), vocab)
