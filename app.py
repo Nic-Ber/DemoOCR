@@ -100,7 +100,7 @@ def greedy_decoder(logits, charList):
     return list(map(lambda x: ''.join(x), text))
 
 def confusion(logits):
-    fig, ax = plt.subplots(figsize=(14,14))
+    fig, ax = plt.subplots(figsize=(20,14))
     logits = tf.squeeze(tf.transpose(logits, (2, 1, 0)), axis=2).numpy()
     sns.heatmap(logits, yticklabels=vocab, ax=ax, cbar=False) #cmap='flare_r'
     ax.set_title('Correlation matrix')
