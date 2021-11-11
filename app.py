@@ -100,9 +100,10 @@ def greedy_decoder(logits, charList):
     return list(map(lambda x: ''.join(x), text))
 
 def confusion(logits):
-    plt.figure(figsize=(14,14))
-    plt.title('Heatmap')
-    sns.heatmap(logits, xticklabels=vocab, yticklabels=vocab, cmap='flare_r')
+    fig, ax = plt.subplots()
+    logits = tf.squeeze(tf.transpose(logits, (2, 1, 0)), axis=2).numpy()
+    sns.heatmap(logits, yticklabels=vocab, cmap='flare_r', ax=ax)
+    st.write(fig
 
 
 # Specify canvas parameters in application
@@ -148,9 +149,8 @@ def pred(choix):
         logits_GRU_5 = model_gru5(img1) 
         pred_gru5 = greedy_decoder(logits_GRU_5, vocab)
         st.write(f'Texte prédit (modèle GRU - 5 epochs) :', pred_gru5[0])
-        fig, ax = plt.subplots()
-        sns.heatmap(tf.squeeze(logits_GRU_5, axis=0).numpy(), ax=ax)
-        st.write(fig)
+        confusion(logits_GRU_5)
+
 
     if choix == 'LSTM 5' or choix == 'Tous les modèles':
         pred_lstm5 = greedy_decoder(model_lstm5(img1), vocab)
